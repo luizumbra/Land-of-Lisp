@@ -3,10 +3,21 @@ This repository have the objective to develop some programs of the book "*Land o
 
 At the same time this repository pretend to give a abstract of each chapter of the book on the subdirectory README.md.
 
+# Chapter 1 - Getting started with Lisp
+
 ## Section I - Lisp is Power
-# Chapter 1 - Getting Started with Lisp
 # Chapter 2 - Creating your first Lisp Program
+- To define global variable, use defparameter command
+- To define glbal function, use the defun command
+- Use the let and flet commands to define local variables and functions, respectively
+- The function labels is like flet, but lets functions call themselves. Functions that call themselves are called recursive functions.
+
 # Chapter 3 - Explore the syntax of Lisp Code
+
+- Parentheses in Lisp are there to keep the the amount of syntax to a minimum;
+- Lists are created from cons cells;
+- You can create lists by making cons cells with the cons command;
+- You can inspect the pieces of a list with car and cdr;
 
 ## Section II - Lisp is Symmetry
 # Chapter 4 - Making Decisions with Conditions

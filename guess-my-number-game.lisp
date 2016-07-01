@@ -1,5 +1,15 @@
-;; Program of the book "Land of Lisp"
-
+;; "Guess my number"
+;;  ===============
+;;
+;; Description:
+;; ===========
+;;   Program of the book "Land of Lisp". In this program the user havo to choose a
+;; number between 1 to 100, and the program have to guess wich number was choosed by
+;; the user using binary search.
+;;
+;; Copyright
+;; =========
+;;   Author of the book "Land of Lisp"
 
 ;; Global variables
 
