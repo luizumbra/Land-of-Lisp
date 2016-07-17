@@ -37,7 +37,11 @@ In this chapter, we discussed how conditions work in Lisp. Along the way, you le
 ### Chapter 5 - Building a Text Game Engine
 In this chapter, we put together a simple engine for a text adventure game. Along the way, you learned the following:
 - A game world can be represented by mathematical graph, consisting of node, for the places the player can visit and edges for the paths between these places.
-- You can store these nodes in an **association list** (**alist**) called \*nodes\* 
+- You can store these nodes in an **association list** (**alist**) called \*nodes\*. This **alist** allows you to look up properties of a node/place by using its name. In case of our game, the property we're storing is a descrition of each node/place.
+- You use the *assoc* function to look up a key (location name in our example) in an **alist**.
+- **Quasiquoting** is a technique that allows you to insert small bitsvof computer code into a large pieces of data.
+- Some Lisp functions accept other functions as arguments. These are called **higher-order functions**. The *mapcar* function is the most popular **higher-order function* in Common Lisp.
+- To replace a value from an **alist**, you *push* new items onto the list. Only the most recent values will be reported by the *assoc* function.
 
 ### Chapter 6 - Interacting with the World: Reading and Priting in Lisp
 ### Chapter 6.5 - Lambda: a Function so important it deserves its own Chapter
