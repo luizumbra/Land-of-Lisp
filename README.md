@@ -1,24 +1,24 @@
-## Land-of-Lisp
+# Land-of-Lisp
 This repository have the objective to develop some programs of the book "*Land of Lisp*", author _Conrad Barski, M. D._.
 
 At the same time this repository pretend to give a abstract of each chapter of the book inside README.md.
 
 ## Section I - Lisp is Power
-# Chapter 1 - Getting started with Lisp
+### Chapter 1 - Getting started with Lisp
 In this chapter, we discussed the different dialects of Lisp and installing CLisp. You learned the following along the way:
 - There are two main dialects of Lisp: Common Lisp and Scheme. Both have a lot to offer, but we'll focus on Common Lisp in this book.
 - Common Lisp is a miltiparadigm language, meaning that it suport many different programming styles.
 - CLisp ia a Common Lisp implementation that is easy to set up, making it a great choice for a Lisp novice.
 - You can type in Lisp commands directly from the CLisp REPL.
 
-# Chapter 2 - Creating your first Lisp Program
+### Chapter 2 - Creating your first Lisp Program
 In this chapter, we discussed the basic Common Lisp commands for defining variables and functions. Along the way, you learned the following:
 - To define global variable, use *defparameter* command.
 - To define glbal function, use the *defun* command.
 - Use the *let* and *flet* commands to define local variables and functions, respectively.
 - The function *labels* is like flet, but lets functions call themselves. Functions that call themselves are called _recursive_ functions.
 
-# Chapter 3 - Explore the syntax of Lisp Code
+### Chapter 3 - Explore the syntax of Lisp Code
 
 - Parentheses in Lisp are there to keep the the amount of syntax to a minimum;
 - Lists are created from cons cells;
