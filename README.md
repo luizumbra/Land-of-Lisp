@@ -19,20 +19,31 @@ In this chapter, we discussed the basic Common Lisp commands for defining variab
 - The function *labels* is like flet, but lets functions call themselves. Functions that call themselves are called _recursive_ functions.
 
 ### Chapter 3 - Explore the syntax of Lisp Code
-
-- Parentheses in Lisp are there to keep the the amount of syntax to a minimum;
-- Lists are created from cons cells;
-- You can create lists by making cons cells with the cons command;
-- You can inspect the pieces of a list with car and cdr;
+In this chapter we discussed the basic Lisp syntax. Along the way, you learned the follwing:
+- Parentheses in Lisp are there to keep the the amount of syntax to a minimum.
+- Lists are created from cons cells.
+- You can create lists by making cons cells with the *cons* command.
+- You can inspect the pieces of a list with *car* and *cdr*.
 
 ## Section II - Lisp is Symmetry
-# Chapter 4 - Making Decisions with Conditions
-# Chapter 5 - Building a Text Game Engine
-# Chapter 6 - Interacting with the World: Reading and Priting in Lisp
-# Chapter 6.5 - Lambda: a Function so important it deserves its own Chapter
-# Chapter 7 - Going Beyond Basic Lists
-# Chapter 8 - This ain't Your Daddy's Wumpus
-# Chapter 9 - Advanced Datatypes and Generic Programming
+### Chapter 4 - Making Decisions with Conditions
+In this chapter, we discussed how conditions work in Lisp. Along the way, you learned the following:
+- The values *nil*, *'nil*, *()*, and *'()* are all basically the same thing in Common Lisp.
+- Lisp make it easy to check for empty lists. This makes it simple to write list-eaters.
+- Lisp conditionals, such as the *if* command, cause Lisp code to be evaluated only under the right conditions.
+- If you need a conditional command that does evrything, then you want to use *cond*.
+- Comparing stuff in Lisp is complicated, but you can get by if you just use *eq* for comparing symbols and *equal* for comparing evrything else.
+
+### Chapter 5 - Building a Text Game Engine
+In this chapter, we put together a simple engine for a text adventure game. Along the way, you learned the following:
+- A game world can be represented by mathematical graph, consisting of node, for the places the player can visit and edges for the paths between these places.
+- You can store these nodes in an **association list** (**alist**) called \*nodes\* 
+
+### Chapter 6 - Interacting with the World: Reading and Priting in Lisp
+### Chapter 6.5 - Lambda: a Function so important it deserves its own Chapter
+### Chapter 7 - Going Beyond Basic Lists
+### Chapter 8 - This ain't Your Daddy's Wumpus
+### Chapter 9 - Advanced Datatypes and Generic Programming
 
 ## Section III - Lisp is Hacking
 # Chapter 10 - Looping with the Loop Command
