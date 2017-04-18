@@ -1,68 +1,31 @@
-# Land-of-Lisp
-This repository have the objective to develop some programs of the book "*Land of Lisp*", author _Conrad Barski, M. D._.
+Land of Lisp
+============
 
-At the same time this repository pretend to give a abstract of each chapter of the book inside README.md.
+*Land of Lisp* is a book written by _Conrad Barski, M. D._. published in 2011. In it has many computer games such as *"Wizard World"* or *"The Grand Theft Wumpus"*, all programed using *CLISP*.
 
-## Section I - Lisp is Power
-### Chapter 1 - Getting started with Lisp
-In this chapter, we discussed the different dialects of Lisp and installing CLisp. You learned the following along the way:
-- There are two main dialects of Lisp: Common Lisp and Scheme. Both have a lot to offer, but we'll focus on Common Lisp in this book.
-- Common Lisp is a miltiparadigm language, meaning that it suport many different programming styles.
-- CLisp ia a Common Lisp implementation that is easy to set up, making it a great choice for a Lisp novice.
-- You can type in Lisp commands directly from the CLisp REPL.
+So, this repository have the objective to develop some of the games in this book, and made commenters about each function to self-study what it does.
 
-### Chapter 2 - Creating your first Lisp Program
-In this chapter, we discussed the basic Common Lisp commands for defining variables and functions. Along the way, you learned the following:
-- To define global variable, use *defparameter* command.
-- To define glbal function, use the *defun* command.
-- Use the *let* and *flet* commands to define local variables and functions, respectively.
-- The function *labels* is like flet, but lets functions call themselves. Functions that call themselves are called _recursive_ functions.
+### Game List ###
 
-### Chapter 3 - Explore the syntax of Lisp Code
-In this chapter we discussed the basic Lisp syntax. Along the way, you learned the follwing:
-- Parentheses in Lisp are there to keep the the amount of syntax to a minimum.
-- Lists are created from cons cells.
-- You can create lists by making cons cells with the *cons* command.
-- You can inspect the pieces of a list with *car* and *cdr*.
+* Wizard World
 
-## Section II - Lisp is Symmetry
-### Chapter 4 - Making Decisions with Conditions
-In this chapter, we discussed how conditions work in Lisp. Along the way, you learned the following:
-- The values *nil*, *'nil*, *()*, and *'()* are all basically the same thing in Common Lisp.
-- Lisp make it easy to check for empty lists. This makes it simple to write list-eaters.
-- Lisp conditionals, such as the *if* command, cause Lisp code to be evaluated only under the right conditions.
-- If you need a conditional command that does evrything, then you want to use *cond*.
-- Comparing stuff in Lisp is complicated, but you can get by if you just use *eq* for comparing symbols and *equal* for comparing evrything else.
+In this game, you are a wizard’s apprentice. You’ll explore the wizard’s house. When we complete the game (in Chapter 17), you’ll be able to solve puzzles and win a magical donut.
 
-### Chapter 5 - Building a Text Game Engine
-In this chapter, we put together a simple engine for a text adventure game. Along the way, you learned the following:
-- A game world can be represented by mathematical graph, consisting of node, for the places the player can visit and edges for the paths between these places.
-- You can store these nodes in an **association list** (**alist**) called \*nodes\*. This **alist** allows you to look up properties of a node/place by using its name. In case of our game, the property we're storing is a descrition of each node/place.
-- You use the *assoc* function to look up a key (location name in our example) in an **alist**.
-- **Quasiquoting** is a technique that allows you to insert small bitsvof computer code into a large pieces of data.
-- Some Lisp functions accept other functions as arguments. These are called **higher-order functions**. The *mapcar* function is the most popular **higher-order function* in Common Lisp.
-- To replace a value from an **alist**, you *push* new items onto the list. Only the most recent values will be reported by the *assoc* function.
+* The Grand Theft Wumpus
+In this new version of Hunt the Wumpus, you are the Lisp alien. You and the Wumpus have just robbed a liquor store and made off with the loot. However, during the escape, the Wumpus decides to double-cross you and run off with the money and your car. But before he drives off, you manage to cap him a couple of times in the kidney.
 
-### Chapter 6 - Interacting with the World: Reading and Priting in Lisp
-### Chapter 6.5 - Lambda: a Function so important it deserves its own Chapter
-### Chapter 7 - Going Beyond Basic Lists
-### Chapter 8 - This ain't Your Daddy's Wumpus
-### Chapter 9 - Advanced Datatypes and Generic Programming
+Now you’re in a pretty tough situation. You don’t have a car or any money, and no way to track down your former partner in crime. But you also have no choice. You have your principles, so you’re going to hunt the Wumpus. You know he won’t be able to get very far with his injuries. He will most likely need to lie low for a few days to recover, which means he will still be some- where in Congestion City. The problem is that the roads in this town are impossibly convoluted, and no one can find their way around, especially an out-of-towner like yourself. How are you ever going to find the Wumpus in this impossible maze?
 
-## Section III - Lisp is Hacking
-# Chapter 10 - Looping with the Loop Command
-# Chapter 11 - Printing Text with the Format Function
-# Chapter 12 - Working with Streams
-# Chapter 13 - Let's creat a Web Server
-# Chapter 13.5 - Functional Programming is Beautiful
+Luckily, being the Lisp alien, you always carry your trusty pocket com- puter. Using Lisp and your graph utilities, you’re fully equipped to analyze complicated data such as the Congestion City roadways and intersections. Surely, you have the tools to conquer this impenetrable road system.
 
-## Section IV - Lisp is Science
-# Chapter 14 - Ramping Lisp Up a Notch With Functional Programming
-# Chapter 15 - Dice of Doom, a Game Written in the Functional Style
-# Chapter 16 - The magic of Lisp Macros
-# Chapter 17 - Domain-Specific Languages
-# Chapter 18 - Lazy Programming
-# Chapter 19 - Creating a Graphical, Web-Based version of Dice of Doom
-# Chapter 20 - Making Dice of Doom more Fun
+The Wumpus has been your partner in crime for a while now, so you know his MO quite well. He will always carefully scout out any new hiding place before he uses it. And since he is injured, any location one or two blocks away (that is, one or two graph edges away) from his hiding place should be marked with some telltale signs: his blood stains.
 
-## Epilogue
+A problem is that he still has his trusty AK-47, while you have only a hand- gun with a single bullet. If you’re going to take him out, you’ll need to be absolutely sure you’ve tracked him down. You’ll need to charge into his hide- out and shoot him down immediately, and you’ll have only one chance to pull this off.
+
+Unfortunately, you and the Wumpus aren’t the only criminals in this town. The most feared outlaw group in Congestion City is the Gruesome Glowworm Gang. These guys are a band of ruthless kidnappers. If you run into them, they will kidnap you, beat you up, rob you, blindfold you, and then kick you out of their car and leave you in some random part of town.
+
+Luckily, they can be avoided if you know to keep an eye out for their glow- ing thoraxes (hence their name). If you see some blinking lights, you know that these guys are one street away from your current location. Also, you know the gang has exactly three separate teams that work the city from three sepa- rate locations.
+
+Finally, you still need to contend with the cops. You know they’ve proba- bly set up some roadblocks in town to try to catch you and the Wumpus. You should still be able to visit any location in Congestion City, but you need to be careful which streets you travel. (In other words, the cops will catch you if you travel along the wrong edge.) Unfortunately, you don’t know how many of these roadblocks there may be.
+
+As you can see, finding the Wumpus and getting back your money and car will be tough. If you think you’re Lisp alien enough to take on the Wumpus, then let’s write this game and hunt him down!
