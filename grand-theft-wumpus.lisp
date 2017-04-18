@@ -1,3 +1,16 @@
+;; Grand Theft Wumpus
+;; ==================
+;;
+;; Land of Lisp
+;; ============
+;;
+;; Author:
+;; ======
+;;  Barski, C. "Land of Lisp: Learn to Program in Lisp, One Game at a Time!",
+;; 2011.
+;;
+;; Copyright © 2011 by Conrad Barski, M.D.
+
 ;; Libraries
 ;; =========
 
