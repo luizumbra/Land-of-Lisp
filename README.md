@@ -5,13 +5,14 @@ Land of Lisp
 
 So, this repository have the objective to develop some of the games in this book, and made commenters about each function to self-study what it does.
 
-### Game List ###
+Game List
+---------
 
-* Wizard World
+### Wizard World ###
 
 In this game, you are a wizard’s apprentice. You’ll explore the wizard’s house. When we complete the game (in Chapter 17), you’ll be able to solve puzzles and win a magical donut.
 
-* The Grand Theft Wumpus
+### The Grand Theft Wumpus ###
 In this new version of Hunt the Wumpus, you are the Lisp alien. You and the Wumpus have just robbed a liquor store and made off with the loot. However, during the escape, the Wumpus decides to double-cross you and run off with the money and your car. But before he drives off, you manage to cap him a couple of times in the kidney.
 
 Now you’re in a pretty tough situation. You don’t have a car or any money, and no way to track down your former partner in crime. But you also have no choice. You have your principles, so you’re going to hunt the Wumpus. You know he won’t be able to get very far with his injuries. He will most likely need to lie low for a few days to recover, which means he will still be some- where in Congestion City. The problem is that the roads in this town are impossibly convoluted, and no one can find their way around, especially an out-of-towner like yourself. How are you ever going to find the Wumpus in this impossible maze?
