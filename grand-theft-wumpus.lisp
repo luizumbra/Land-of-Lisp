@@ -11,55 +11,78 @@
 ;;
 ;; Copyright © 2011 by Conrad Barski, M.D.
 
-;; Libraries
-;; =========
+;; Define the Edges
+;; ================
 
 (load "graph-util")
 
-;; Global Parameters
-;; =================
 
-(defparameter *congestion-city-nodes* nil)
+(defparameter *congestion-city-nodes*
+  ;; Global-Parameter
+  ;; ================
+  ;;
+  ;; Description:
+  ;; ===========
+  ;;  A set of nodes stored. The possible data at each node will include the presence
+  ;; of the Wumpus, a Glowworm team, and various danger signs.
+  nil)
 
-(defparameter *congestion-city-edges* nil)
+
+(defparameter *congestion-city-edges*
+  ;; Global-Parameter
+  ;; ================
+  ;;
+  ;; Description:
+  ;; ===========
+  ;;  A set of edges stored and data linked to these edges will alert us to the
+  ;; presence of any police roadblocks.
+  nil)
+
 
 (defparameter *visited-nodes* nil)
 
+
 (defparameter *node-num*
-  ;; Global-parameter
+  ;; Global-Parameter
   ;; ================
   ;;
-  ;; Description
+  ;; Description:
   ;; ===========
-  ;;  Defines the number of location of Congestion City
+  ;;  Maximum number of nodes.
   30)
 
+
 (defparameter *edge-num*
-  ;; Global-parameter
+  ;; Global-Parameter
   ;; ================
   ;;
   ;; Description:
   ;; ===========
-  ;;  Defines the number of roads between locations
+  ;;  Maximum number of edges.
   45)
 
+
 (defparameter *worm-num*
-  ;; Global-parameter
+  ;; Global-Parameter
   ;; ================
   ;;
   ;; Description:
   ;; ===========
-  ;;  The number of Gruesome Glowworm Gang teams
+  ;;  Maximum number of worms team.
   3)
 
+
 (defparameter *cop-odds*
-  ;; Global-parameter
+  ;; Global-Parameter
   ;; ================
   ;;
   ;; Description:
   ;; ===========
-  ;;  The number of cops units in Congestion City
+  ;;  Each street will have a 1-in-15 chance of containing a roadblock.
   15)
+
+;; Generating Random Edges
+;; =======================
 
 (defun random-node ()
   ;; Function
@@ -67,7 +90,7 @@
   ;;
   ;; Output:
   ;; ======
-  ;;  Returns a random node identifier
+  ;;  Returns a random node identifier.
   (1+ (random *node-num*)))
 
 (defun edge-pair (a b)
@@ -76,15 +99,26 @@
   ;;
   ;; Input:
   ;; =====
-  ;;  [1] - a, First Node
-  ;;  [2] - b, Second Node
+  ;;  [1] - a, a node.
+  ;;  [2] - b, a node.
   ;;
   ;; Output:
   ;; ======
-  ;;  Create two directed edges between the randomly
-  ;; selected nodes. This step makes sense only for
-  ;; undirected graph, with two opposing directed edges
-  ;; mirroring each undirected edge.
+  ;;  It is a helper function to create two direction edges between 'a' and 'b'.
+  ;;
+  ;; Run:
+  ;; ===
+  ;;  [1] > (edge-pair 1 2)
+  ;;        ((1 . 2) (2 . 1))
+  ;;
+  ;;  [2] > (edge-pair "a" "b")
+  ;;        (("a" . "b") ("b" . "a"))
+  ;;
+  ;;  [3] > (edge-pair '(1 2 3) '(3 2))
+  ;;        (((1 2 3) 3 2) ((3 2) 1 2 3))
+  ;;
+  ;;  [4] > (edge-pair '(1 2 3) 3)
+  ;;        (((1 2 3) . 3) (3 1 2 3))
   (unless (eql a b)
     (list (cons a b)
 	  (cons b a))))
@@ -96,10 +130,27 @@
   ;; Output:
   ;; ======
   ;;  Generates the actual list of random edges.
+  ;;
+  ;; Run:
+  ;; ===
+  ;;  [1] - *edge-num* with 45 value, and remember, it is use a random function (random-node)
+  ;;      > (make-edge-list)
+  ;;        ((18 . 1) (1 . 18) (4 . 6) (6 . 4) (16 . 9) (9 . 16) (12 . 26) (26 . 12)
+  ;;         (10 . 30) (30 . 10) (9 . 13) (13 . 9) (7 . 8) (8 . 7) (3 . 7) (7 . 3) (6 . 2)
+  ;;         (2 . 6) (10 . 26) (26 . 10) (23 . 10) (10 . 23) (10 . 12) (12 . 10) (18 . 23)
+  ;;         (23 . 18) (2 . 22) (22 . 2) (23 . 18) (18 . 23) (17 . 6) (6 . 17) (13 . 12)
+  ;;         (12 . 13) (30 . 13) (13 . 30) (22 . 25) (25 . 22) (26 . 16) (16 . 26)
+  ;;         (30 . 18) (18 . 30) (30 . 29) (29 . 30) (28 . 25) (25 . 28) (10 . 2) (2 . 10)
+  ;;         (5 . 18) (18 . 5) (30 . 19) (19 . 30) (12 . 9) (9 . 12) (22 . 4) (4 . 22)
+  ;;         (18 . 7) (7 . 18) (17 . 18) (18 . 17) (4 . 30) (30 . 4) (1 . 28) (28 . 1)
+  ;;         (22 . 26) (26 . 22) (18 . 21) (21 . 18) (23 . 13) (13 . 23) (21 . 4) (4 . 21)
+  ;;         (26 . 30) (30 . 26) (17 . 20) (20 . 17) (8 . 23) (23 . 8) (19 . 12) (12 . 19)
+  ;;         (29 . 12) (12 . 29) (19 . 12) (12 . 19))
   (apply #'append (loop repeat *edge-num*
-			collect (edge-pair (random-node)
-					   (random-node)))))
+			collect (edge-pair (random-node) (random-node)))))
 
+;; Preventing Islands
+;; ==================
 
 (defun direct-edges (node edge-list)
   ;; Function
@@ -107,25 +158,23 @@
   ;;
   ;; Input:
   ;; =====
-  ;;  [1] - node, a node
-  ;;  [2] - edge-list, a list of edges
+  ;;  [1] - 'node', a simple node.
+  ;;  [2] - 'edge-list', the edge-list.
   ;;
   ;; Output:
   ;; ======
-  ;;  Finds the edges connect if the nodes.
+  ;;  Finds all the edges in 'edge-list' that start with 'node'. It does this by
+  ;; creating a new list with all edges removed that don’t have the 'node' in the car
+  ;; position.
+  ;;
+  ;; Run:
+  ;; ===
+  ;;  [1] > (direct-edges 21 '((5 . 11) (11 . 5) (24 . 21) (21 . 24) (15 . 11) (11 . 15) (6 . 21) (21 . 6)))
+  ;;        ((21 . 24) (21 .26))
+  ;;
+  ;;  [2] > (direct-edges 3 '((5 . 11) (11 . 5) (24 . 21) (21 . 24) (15 . 11) (11 . 15) (6 . 21) (21 . 6)))
+  ;;        NIL
   (remove-if-not (lambda (x)
-		   ;; Lambda-function
-		   ;; ===============
-		   ;;
-		   ;; Input:
-		   ;; =====
-		   ;;  [1] - x, a edge of edge-list
-		   ;;
-		   ;; Output:
-		   ;; ======
-		   ;;  Apply remove-if-not on the head of each
-		   ;; alist element of edge-list that is equal
-		   ;; of node.
 		   (eql (car x) node))
 		 edge-list))
 
@@ -135,47 +184,28 @@
   ;;
   ;; Input:
   ;; =====
-  ;;  [1] - node, a source node
-  ;;  [2] - edge-list, the list of nodes
+  ;;  [1] - 'node', a simple node
+  ;;  [2] - 'edge-list', the edge-list
   ;;
   ;; Output:
   ;; ======
-  ;;  Builds a list of all nodes connected to that node, even if
-  ;; it requires walking across multiple edges.
+  ;;  To find islands, this function takes an 'edge-list' and a source 'node' and
+  ;; builds a list of all nodes connected to that 'node', even if it requires walking
+  ;; across multiple edges.
+  ;;
+  ;;
+  ;; Run:
+  ;; ===
+  ;;  [1] > (get-connected 21 '((5 . 11) (11 . 5) (24 . 21) (21 . 24) (15 . 11) (11 . 15) (6 . 21) (21 . 6)))
+  ;;        (6 24 21)
+  ;;
+  ;;  [2] > (get-connected 3 '((5 . 11) (11 . 5) (24 . 21) (21 . 24) (15 . 11) (11 . 15) (6 . 21) (21 . 6)))
+  ;;        (3)
   (let ((visited nil))
-    ;; Local-parameter
-    ;; ===============
-    ;;
-    ;; Description:
-    ;; ===========
-    ;;  A visited node list
     (labels ((traverse (node)
-		       ;; Local-Function
-		       ;; ==============
-		       ;;
-		       ;; Input:
-		       ;; =====
-		       ;;  [1] - node, a node to travel
-		       ;;
-		       ;; Output:
-		       ;; ======
-		       ;;  Seach along connected nodes, starting
-		       ;; with the source node. Newly found
-		       ;; nodes are added to the visited list.
 		       (unless (member node visited)
 			 (push node visited)
 			 (mapc (lambda (edge)
-				 ;; Lambda-Function
-				 ;; ===============
-				 ;;
-				 ;; Input:
-				 ;; =====
-				 ;;  [1] - edge, a edge of node.
-				 ;;
-				 ;; Output:
-				 ;; ======
-				 ;;  traverse all the children
-				 ;; of this found node.
 				 (traverse (cdr edge)))
 			       (direct-edges node edge-list)))))
 	    (traverse node))
@@ -187,51 +217,31 @@
   ;;
   ;; Input:
   ;; =====
-  ;;  [1] - nodes, a list of nodes
-  ;;  [2] - edge-list, a list of edges
+  ;;  [1] - 'nodes', list with all nodes
+  ;;  [2] - 'edges-list', the edge-list
   ;;
   ;; Output:
   ;; ======
-  ;;  Returns a list of nodes that are not connected (it is a
-  ;; island).
+  ;;  Function that will find all the islands in our graph. First, its finds all
+  ;; connected nodes and unconnected nodes, subtract them putting the unconnected
+  ;;
+  ;; Run:
+  ;; ===
+  ;;  [1] > (find-islands '(3 21 6 4) '((5 . 11) (11 . 5) (24 . 21) (21 . 24) (15 . 11) (11 . 15) (6 . 21) (21 . 6)))
+  ;;        ((4) (6 24 21) (3))
+  ;;
+  ;;  [2] > (find-islands '(3 21 6 4) '((6 . 11) (11 . 6) (24 . 21) (21 . 24) (15 . 11) (11 . 15) (6 . 21) (21 . 6)))
+  ;;        ((4) (15 11 6 24 21) (3))
+  ;;
+  ;;  [3] > (find-islands '(3 21 4 6 13 15 24) '((6 . 11) (11 . 6) (24 . 21) (21 . 24) (15 . 11) (11 . 15) (6 . 21) (21 . 6)))
+  ;;        ((13) (4) (15 11 6 24 21) (3))
+  ;;
+  ;;  [4] > (find-islands '(21 6) '((5 . 11) (11 . 5) (24 . 21) (21 . 24) (15 . 11) (11 . 15) (6 . 21) (21 . 6)))
+  ;;        ((6 24 21))
   (let ((islands nil))
-    ;; Local-parameter
-    ;; ===============
-    ;;
-    ;; Description:
-    ;; ===========
-    ;;  A list of nodes that are not in edge-list.
     (labels ((find-island (nodes)
-			  ;; Local-fucntion
-			  ;; ==============
-			  ;;
-			  ;; Input:
-			  ;; =====
-			  ;;  [1] - nodes, a list of nodes
-			  ;;
-			  ;; Output:
-			  ;; ======
-			  ;;  Checks which nodes are connected
-			  ;; to the first node in our list of
-			  ;; nodes using the connected function.
-			  ;; It then subtracts these nodes from
-			  ;; the full list of nodes using the
-			  ;; set-difference function.
 			  (let* ((connected (get-connected (car nodes) edge-list))
-				 ;; Local-local-parameter
-				 ;; =====================
-				 ;;
-				 ;; Description:
-				 ;; ===========
-				 ;;  A list of connected node.
-				 (unconnected (set-difference nodes connected))
-				 ;; Local-local-parameter
-				 ;; =====================
-				 ;;
-				 ;; Description:
-				 ;; ===========
-				 ;;  A list of desconnected node
-				 )
+				 (unconnected (set-difference nodes connected)))
 			    (push connected islands)
 			    (when unconnected
 			      (find-island unconnected)))))
@@ -244,12 +254,22 @@
   ;;
   ;; Input:
   ;; =====
-  ;;  [1] - islands, a list of not connected node
+  ;;  [1] - 'islands',
   ;;
   ;; Output:
   ;; ======
-  ;;  Returns a list of additional edges that join all the
-  ;; islands together.
+  ;;  Returns a list of additional edges that join all the islands together.
+  ;;
+  ;; Run:
+  ;; ===
+  ;;  [1] > (connect-with-bridges '((4) (6 24 21) (3)))
+  ;;        ((4 . 6) (6 . 4) (6 . 3) (3 . 6))
+  ;;
+  ;;  [2] > (connect-with-bridges '((13) (4) (15 11 6 24 21) (3)))
+  ;;        ((13 . 4) (4 . 13) (4 . 15) (15 . 4) (15 . 3) (3 . 15))
+  ;;
+  ;;  [3] > (connect-with-bridges '((6 24 21)))
+  ;;        NIL
   (when (cdr islands)
     (append (edge-pair (caar islands)
 		       (caadr islands))
@@ -261,13 +281,21 @@
   ;;
   ;; Input:
   ;; =====
-  ;;  [1] - nodes, all nodes
-  ;;  [2] - edge-list, the complete edge-list
+  ;;  [1] - 'nodes', a list with all nodes
+  ;;  [2] - 'edge-list', a list with all the edges
   ;;
   ;; Output:
   ;; ======
-  ;;  Tie all of our island prevention functions together
+  ;;  It uses find-islands to find all the land masses, and then calls
+  ;; connect-with-bridges to build appropriate bridges. It then appends these bridges
+  ;; to the initial list of edges to produce a final, fully connected land mass.
+  ;;
+  ;; Run:
+  ;; ===
+  ;;  [1] > 
   (append (connect-with-bridges (find-islands nodes edge-list)) edge-list))
+
+;; Building the inal Edges for Congestion City
 
 (defun make-city-edges ()
   ;; Function
@@ -275,152 +303,32 @@
   ;;
   ;; Output:
   ;; ======
-  ;;  Create the edges of Congetion-City with cops
+  ;;  Creates a list of nodes, putting bllocks of cops in random nodes.
+  ;;
   (let* ((nodes (loop for i from 1 to *node-num*
 		      collect i))
-	 ;; Local-parameter
-	 ;; ===============
-	 ;;
-	 ;; Description:
-	 ;; ===========
-	 ;;  List of nodes
 	 (edge-list (connect-all-islands nodes (make-edge-list)))
-	 ;; Local-parameter
-	 ;; ===============
-	 ;;
-	 ;; Description:
-	 ;; ===========
-	 ;;  Creates a random (but fully connected) edge list
-	 (cops
-	  ;; Local-parameter
-	  ;; ===============
-	  ;;
-	  ;; Description
-	  ;; ===========
-	  ;;  Creates a random list of edges that contains cops
-	  (remove-if-not (lambda (x)
-			   ;; Lambda-function
-			   ;; ===============
-			   ;;
-			   ;; Input:
-			   ;; =====
-			   ;;  [1] - x, a edge
-			   ;;
-			   ;; Output:
-			   ;; ======
-			   ;;  Choose if x can have a cop-odd or not.
-			   (zerop (random *cop-odds*)))
-			 edge-list)))
+	 (cops (remove-if-not (lambda (x)
+				(zerop (random *cop-odds*)))
+			      edge-list)))
     (add-cops (edges-to-alist edge-list) cops)))
 
 (defun edges-to-alist (edge-list)
-  ;; Function
-  ;; ========
-  ;;
-  ;; Input:
-  ;; =====
-  ;;  [1] - edge-list, a list of edges of Congetion-City
-  ;;
-  ;; Output:
-  ;; ======
-  ;;  Converts a list of edges into an alist of edges
-  ;;
-  ;; Example:
-  ;; =======
-  ;;  [1] > (edges-to-alist '((1 . 2) (2 . 1) (2 . 3) (3 . 2)))
-  ;;      > '((1 (2)) (2 (1) (3)) (3 (2)))
   (mapcar (lambda (node1)
-	    ;; Lambda-function
-	    ;; ===============
-	    ;;
-	    ;; Input:
-	    ;; =====
-	    ;;  [1] - node1, A node to remove duplicates
-	    ;;
-	    ;; Output:
-	    ;; ======
-	    ;;  Nested mapcar functions allow edges-to-alist to convert the edges
-	    ;; of a city into an alist.
             (cons node1
                   (mapcar (lambda (edge)
-			    ;; Lambda-function
-			    ;; ===============
-			    ;;
-			    ;; Input:
-			    ;; =====
-			    ;;  [1] - edge,
-			    ;;
-			    ;; Output:
-			    ;; ======
-			    ;;  To build the list of nodes, we use the
-			    ;; remove-duplicates function, which removes
-			    ;; duplicate items from a list.
 			    (list (cdr edge)))
 			  (remove-duplicates (direct-edges node1 edge-list)
 					     :test #'equal))))
 	  (remove-duplicates (mapcar #'car edge-list))))
 
 (defun add-cops (edge-alist edges-with-cops)
-  ;; Function
-  ;; ========
-  ;;
-  ;; Input:
-  ;; =====
-  ;;  [1] - edge-alist, all edges of the city
-  ;;  [2] - edge-with-cops, the edges marked with cops-odds
-  ;;
-  ;; Output:
-  ;; ======
-  ;;  Use this list of cop edges to mark the edges in our alist that contain cops
   (mapcar (lambda (x)
-	    ;; Lambda-function
-	    ;; ===============
-	    ;;
-	    ;; Input:
-	    ;; =====
-	    ;;  [1] - x, a simple edge with format (a (b) (c))
-	    ;;
-	    ;; Output:
-	    ;; ======
-	    ;;  Nested mapcar commands to map across the edges within each node
-	    (let ((node1
-		   ;; Local-parameter
-		   ;; ===============
-		   ;;
-		   ;; Description:
-		   ;; ===========
-		   ;;  Knowing that x have the format (a (b) (c)), node1 is a
-		   (car x))
-		  (node1-edges
-		   ;; Local-parameter
-		   ;; ===============
-		   ;;
-		   ;; Description:
-		   ;; ===========
-		   ;;  Knowing that x have the format (a (b) (c)), node1 is
-		   ;; ((b) (c))
-		   (cdr x)))
+	    (let ((node1 (car x))
+		  (node1-edges (cdr x)))
 	      (cons node1
 		    (mapcar (lambda (edge)
-			      ;; Lambda-function
-			      ;; ===============
-			      ;;
-			      ;; Input:
-			      ;; =====
-			      ;;  [1] - edge, the edges of the city
-			      ;;
-			      ;; Output:
-			      ;; ======
-			      ;;  We then check whether there are any cops on a
-			      ;; given edge, using the intersection function.
-			      (let ((node2
-				     ;; Local-parameter
-				     ;; ===============
-				     ;;
-				     ;; Description:
-				     ;; ===========
-				     ;;  The first node of edge
-				     (car edge)))
+			      (let ((node2 (car edge)))
 				(if (intersection (edge-pair node1 node2)
 						  edges-with-cops
 						  :test #'equal)
@@ -429,63 +337,3 @@
 			    node1-edges))))
 	  edge-alist))
 
-(defun neighbors (node edge-alist)
-  ;; Function
-  ;; ========
-  ;;
-  ;; Input:
-  ;; =====
-  ;;  [1] - node, a simple node
-  ;;  [2] - edge-alist, alist of edges
-  ;;
-  ;; Output:
-  ;; ======
-  ;;  Looks up the node’s neighbors using the alist of edges.
-  ;; If the second node is in that list, we know we’re one away.
-  (mapcar #'car (cdr (assoc node edge-alist))))
-
-
-(defun within-one (a b edge-alist)
-  ;; Function
-  ;; ========
-  ;;
-  ;; Input:
-  ;; =====
-  ;;  [1] - a,
-  ;;  [2] - b,
-  ;;  [3] - edge-alist,
-  ;;
-  ;; Output:
-  ;; ======
-  ;;  Looks up the first node (a) in the alist of edges with
-  ;; neighbors. Then it uses member to see if the other node
-  ;; (b) is among these nodes.
-  (member b (neighbors a edge-alist)))
-
-(defun within-two (a b edge-alist)
-  ;; Function
-  ;; ========
-  ;;
-  ;; Input:
-  ;; =====
-  ;;  [1] - a,
-  ;;  [2] - b,
-  ;;  [3] - edge-alist,
-  ;;
-  ;; Output:
-  ;; ======
-  ;;  
-  (or (within-one a b edge-alist)
-      (some (lambda (x)
-	      ;; Lambda-function
-	      ;; ===============
-	      ;;
-	      ;; Input:
-	      ;; =====
-	      ;;  [1] - x,
-	      ;;
-	      ;; Output:
-	      ;; ======
-	      ;;  
-              (within-one x b edge-alist))
-            (neighbors a edge-alist))))

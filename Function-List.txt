@@ -1,0 +1,39 @@
+Grand Theft Wumpus
+==================
+
+## direct-edge ##
+
+Input:
+- 'node', a simple node.
+- 'edge-list', a list of edges
+
+Output:
+- Finds all the edges in 'edge-list' that start with 'node'. It does this by creating a new list with all edges removed thath do not heva the 'node' in the car position.
+
+## edge-pair ##
+
+Input:
+- 'a', a node.
+- 'b', a node.
+
+Output:
+- It is a helper function to create two direction edges between 'a' and 'b'.
+
+## get-connected ##
+
+Input:
+- 'node', a simple node
+- 'edge-list', all edges
+
+Output:
+- 
+
+## make-edge-list ##
+
+Output:
+- Generates the actual list of random edges.
+
+## random-node ##
+
+Output:
+- Returns a random node identifier.
