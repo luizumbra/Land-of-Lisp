@@ -58,7 +58,6 @@
     (attic (you are in the attic.
 		there is a giant welding torch in the corner.))))
 
-
 (defun describe-location (location nodes)
   ;; Function
   ;; ========
@@ -112,6 +111,7 @@
   ;; =====
   ;;  [1] - location, a symbol that represent the current location player.
   ;;  [2] - edges, a list of paths.
+  ;;
   ;; Output:
   ;; ======
   ;;  Describe all the paths of the location symbol in edges.
@@ -338,6 +338,7 @@
 		     ;; Input:
 		     ;; =====
 		     ;;  [1] - x, a command player.
+		     ;;
 		     ;; Output:
 		     ;; ======
 		     ;;  Put a quot at x.
@@ -409,6 +410,7 @@
   ;; Input:
   ;; =====
   ;;  [1] - lst, a simbol-based writing
+  ;;
   ;; Output:
   ;; ======
   ;;  Converts lst into a properly capitalized text.
