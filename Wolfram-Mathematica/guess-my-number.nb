@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      5305,        137]
-NotebookOptionsPosition[      4781,        119]
-NotebookOutlinePosition[      5133,        135]
-CellTagsIndexPosition[      5090,        132]
+NotebookDataLength[      7264,        179]
+NotebookOptionsPosition[      6640,        160]
+NotebookOutlinePosition[      6993,        176]
+CellTagsIndexPosition[      6950,        173]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -46,35 +46,51 @@ Cell[BoxData[
        RowBox[{"1", ",", "100"}], "]"}]}], "]"}]}], "\[IndentingNewLine]", 
    "\[IndentingNewLine]", 
    RowBox[{
+    RowBox[{"AskForASmallerOrBiggerGuess", "[", "guessedInteger_", "]"}], ":=", 
+    RowBox[{"Input", "[", 
+     RowBox[{
+     "guessedInteger", " ", 
+      "\"\<is your Number? Case not, inform if it is smaller or \
+bigger.\>\""}], "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
     RowBox[{"EngineGuessMyNumberGame", "[", 
      RowBox[{
      "smallerInteger_", ",", "biggerInteger_", ",", "guessedInteger_"}], 
      "]"}], ":=", 
-    RowBox[{"If", "[", 
+    RowBox[{"CheckForAfirmativeAnswer", "[", 
      RowBox[{
-      RowBox[{"StringMatchQ", "[", 
-       RowBox[{
-        RowBox[{"InputString", "[", 
-         RowBox[{"guessedInteger", "\"\< is this your number? (Y/N)\>\""}], 
-         "]"}], ",", 
-        RowBox[{"\"\<Y\>\"", "|", "\"\<y\>\""}]}], "]"}], ",", 
-      RowBox[{"EndGuessMyNumberGame", "[", "]"}], ",", 
-      RowBox[{"AskForASmallerOrBiggerGuess", "[", 
-       RowBox[{
-       "smallerInteger", ",", "biggerInteger", ",", "guessedInteger"}], 
-       "]"}]}], "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     "smallerInteger", ",", "biggerInteger", ",", "guessedInteger", ",", 
+      RowBox[{"AskForASmallerOrBiggerGuess", "[", "guessedInteger", "]"}]}], 
+     "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
    RowBox[{
-    RowBox[{"AskForASmallerOrBiggerGuess", "[", 
+    RowBox[{"CheckForAfirmativeAnswer", "[", 
      RowBox[{
-     "smallerInteger_", ",", "biggerInteger_", ",", "guessedInteger_"}], 
-     "]"}], ":=", 
+     "smallerInteger_", ",", "biggerInteger_", ",", "guessedInteger_", ",", 
+      "playerAnswerString_"}], "]"}], ":=", 
     RowBox[{"If", "[", 
      RowBox[{
       RowBox[{"StringMatchQ", "[", 
+       RowBox[{"playerAnswerString", ",", 
+        RowBox[{"\"\<Yes\>\"", "|", "\"\<yes\>\"", "|", "\"\<YES\>\""}]}], 
+       "]"}], ",", 
+      RowBox[{"EndGuessMyNumberGame", "[", "]"}], ",", 
+      RowBox[{"CheckForSmallerOrBiggerAnswer", "[", 
        RowBox[{
-        RowBox[{"InputString", "[", "\"\<It is smaller? (Y/N)\>\"", "]"}], 
-        ",", 
-        RowBox[{"\"\<Y\>\"", "|", "\"\<y\>\""}]}], "]"}], ",", 
+       "smallerInteger", ",", "biggerInteger", ",", "guessedInteger", ",", 
+        "playerAnswerString"}], "]"}]}], "]"}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"CheckForSmallerOrBiggerAnswer", "[", 
+     RowBox[{
+     "smallerInteger_", ",", "biggerInteger_", ",", "guessedInteger_", ",", 
+      "playerAnswerString_"}], "]"}], ":=", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"StringMatchQ", "[", 
+       RowBox[{"playerAnswerString", ",", 
+        RowBox[{
+        "\"\<small\>\"", "|", "\"\<Small\>\"", "|", "\"\<SMALL\>\""}]}], 
+       "]"}], ",", 
       RowBox[{"EngineGuessMyNumberGame", "[", 
        RowBox[{"smallerInteger", ",", 
         RowBox[{"guessedInteger", "-", "1"}], ",", 
@@ -84,7 +100,7 @@ Cell[BoxData[
       RowBox[{"EngineGuessMyNumberGame", "[", 
        RowBox[{
         RowBox[{"guessedInteger", "+", "1"}], ",", "biggerInteger", ",", 
-        RowBox[{"GuessMyNumber", "[", 
+        RowBox[{"guessedInteger", "[", 
          RowBox[{
           RowBox[{"guessedInteger", "+", "1"}], ",", "biggerInteger"}], 
          "]"}]}], "]"}]}], "]"}]}], "\[IndentingNewLine]", 
@@ -100,25 +116,50 @@ Cell[BoxData[
   3.740421276460655*^9, 3.740421291443429*^9}, {3.740421359620097*^9, 
   3.740421555670724*^9}, {3.740422074460939*^9, 3.740422084018207*^9}, {
   3.7404221568910923`*^9, 3.740422157008683*^9}, {3.740422208983588*^9, 
-  3.740422209270031*^9}},
- CellLabel->"In[45]:=",ExpressionUUID->"82608206-19e4-434b-81f7-3b49ebf7db9f"],
+  3.740422209270031*^9}, {3.7407638409497538`*^9, 3.740763929802026*^9}, {
+  3.740764015364098*^9, 3.740764597295189*^9}, {3.740764627867187*^9, 
+  3.7407646766307898`*^9}, {3.740764713935498*^9, 3.740764788103806*^9}},
+ CellLabel->"In[25]:=",ExpressionUUID->"82608206-19e4-434b-81f7-3b49ebf7db9f"],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"StartGuessMyNumberGame", "[", "]"}]], "Input",
- CellChangeTimes->{{3.7404222124927883`*^9, 3.740422215794677*^9}},
- CellLabel->"In[50]:=",ExpressionUUID->"9ff78a49-c2d5-4790-b0ba-2eae0b6ef3e9"],
+ CellChangeTimes->{{3.740764797714652*^9, 3.740764802114406*^9}},
+ CellLabel->"In[32]:=",ExpressionUUID->"d9e3400f-33ec-48e3-b2b4-bbf505019af8"],
 
-Cell[BoxData["\<\"Yeah Baby!!!\"\>"], "Print",
- CellChangeTimes->{3.740422237436857*^9},
+Cell[BoxData[
+ TemplateBox[{
+  "StringMatchQ","strse",
+   "\"String or list of strings expected at position \\!\\(\\*RowBox[{\\\"1\\\
+\"}]\\) in \\!\\(\\*RowBox[{\\\"StringMatchQ\\\", \\\"[\\\", \
+RowBox[{\\\"smaller\\\", \\\",\\\", RowBox[{\\\"\\\\\\\"Yes\\\\\\\"\\\", \
+\\\"|\\\", \\\"\\\\\\\"yes\\\\\\\"\\\", \\\"|\\\", \
+\\\"\\\\\\\"YES\\\\\\\"\\\"}]}], \\\"]\\\"}]\\).\"",2,32,3,
+   27705326905906843102,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.740764809402977*^9},
  CellLabel->
   "During evaluation of \
-In[50]:=",ExpressionUUID->"ddb13c89-5664-4c8c-ab14-4da1b8703116"]
+In[32]:=",ExpressionUUID->"4c842c01-7155-4bee-bb2e-e17ecc83b092"],
+
+Cell[BoxData[
+ RowBox[{"If", "[", 
+  RowBox[{
+   RowBox[{"StringMatchQ", "[", 
+    RowBox[{"smaller", ",", 
+     RowBox[{"\<\"Yes\"\>", "|", "\<\"yes\"\>", "|", "\<\"YES\"\>"}]}], "]"}],
+    ",", 
+   RowBox[{"EndGuessMyNumberGame", "[", "]"}], ",", 
+   RowBox[{"CheckForSmallerOrBiggerAnswer", "[", 
+    RowBox[{"1", ",", "100", ",", "50", ",", "smaller"}], "]"}]}], 
+  "]"}]], "Output",
+ CellChangeTimes->{3.7407648094087753`*^9},
+ CellLabel->"Out[32]=",ExpressionUUID->"2e644e86-48b2-45ce-a707-283c1d277f76"]
 }, Open  ]]
 },
-WindowSize->{640, 755},
-WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+WindowSize->{1280, 755},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
 FrontEndVersion->"11.3 for Mac OS X x86 (32-bit, 64-bit Kernel) (March 5, \
 2018)",
 StyleDefinitions->"Default.nb"
@@ -134,10 +175,11 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 3769, 83, 598, "Input",ExpressionUUID->"82608206-19e4-434b-81f7-3b49ebf7db9f"],
+Cell[558, 20, 4704, 101, 493, "Input",ExpressionUUID->"82608206-19e4-434b-81f7-3b49ebf7db9f"],
 Cell[CellGroupData[{
-Cell[4352, 107, 217, 3, 30, "Input",ExpressionUUID->"9ff78a49-c2d5-4790-b0ba-2eae0b6ef3e9"],
-Cell[4572, 112, 193, 4, 24, "Print",ExpressionUUID->"ddb13c89-5664-4c8c-ab14-4da1b8703116"]
+Cell[5287, 125, 215, 3, 30, "Input",ExpressionUUID->"d9e3400f-33ec-48e3-b2b4-bbf505019af8"],
+Cell[5505, 130, 606, 13, 25, "Message",ExpressionUUID->"4c842c01-7155-4bee-bb2e-e17ecc83b092"],
+Cell[6114, 145, 510, 12, 70, "Output",ExpressionUUID->"2e644e86-48b2-45ce-a707-283c1d277f76"]
 }, Open  ]]
 }
 ]
