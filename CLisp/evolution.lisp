@@ -36,7 +36,7 @@ And finnaly, has the animal genes. Each animal has exactly eight genes, consisti
                                    collecting (1+ (random 10))))))
 
 (defun move (animal)
-  "This function accepts an animal as an argument and moves it, orthogo- nally or diagonally, based on the direction grid we have described."
+  "This function accepts an animal as an argument and moves it, orthogo- nally or diagonally, based on the direction grid we have described. After decidind the move direction, it is needed to decrease the amount of energy the animal possesses by one. Motion, after all, requires energy."
   (let ((dir (animal-dir animal))
         (x (animal-x animal))
         (y (animal-y animal)))
@@ -55,6 +55,7 @@ And finnaly, has the animal genes. Each animal has exactly eight genes, consisti
     (decf (animal-energy animal))))
 
 (defun turn (animal)
+  "This function will use the animal’s genes to decide if and how much it will turn on a given day."
   (let ((x (random (apply #'+ (animal-genes animal)))))
     (labels ((angle (genes x)
 		    (let ((xnu (- x (car genes))))
@@ -65,6 +66,8 @@ And finnaly, has the animal genes. Each animal has exactly eight genes, consisti
 		  (mod (+ (animal-dir animal) (angle (animal-genes animal) x)) 8)))))
 
 (defun eat (animal)
+  "Eating is a simple process. We just need to check if there’s a plant at the ani- mal’s current location, and if there is, consume it.
+The animal’s energy is increased by the amount of energy that was being stored by the plant. We then remove the plant from the world using the remhash function."
   (let ((pos (cons (animal-x animal) (animal-y animal))))
     (when (gethash pos *plants*)
       (incf (animal-energy animal) *plant-energy*)
@@ -73,6 +76,8 @@ And finnaly, has the animal genes. Each animal has exactly eight genes, consisti
 (defparameter *reproduction-energy* 200)
 
 (defun reproduce (animal)
+  "The animal will be a asexually reproducer. It takes a healthy parent to produce healthy offspring, so our animals will reproduce only if they have at least the value of *reproduction-energy* days’ worth of energy.
+To create the new animal, we simply copy the structure of the parent."
   (let ((e (animal-energy animal)))
     (when (>= e *reproduction-energy*)
       (setf (animal-energy animal) (ash e -1))
@@ -84,6 +89,7 @@ And finnaly, has the animal genes. Each animal has exactly eight genes, consisti
         (push animal-nu *animals*)))))
 
 (defun update-world ()
+  "This function removes all dead animals from the world."
   (setf *animals* (remove-if (lambda (animal)
                                (<= (animal-energy animal) 0))
                              *animals*))
@@ -96,6 +102,7 @@ And finnaly, has the animal genes. Each animal has exactly eight genes, consisti
   (add-plants))
 
 (defun draw-world ()
+  "A simulated world isn’t any fun unless we can actually see our critters running around, searching for food, reproducing, and dying. The draw-world function handles this by using the *animals* and *plants* data structures to draw a snap- shot of the current world."
   (loop for y
         below *height*
         do (progn (fresh-line)
@@ -112,6 +119,7 @@ And finnaly, has the animal genes. Each animal has exactly eight genes, consisti
                   (princ "|"))))
 
 (defun evolution ()
+  "A user interface function for our simulation. If the user enters a valid integer n, the program will run the simulation for n simulated days, using a loop. If the input isn’t a valid integer, we run update-world to simulate one more day."
   (draw-world)
   (fresh-line)
   (let ((str (read-line)))
