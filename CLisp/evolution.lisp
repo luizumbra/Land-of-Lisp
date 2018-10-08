@@ -6,24 +6,37 @@
 (defparameter *plants* (make-hash-table :test #'equal))
 
 (defun random-plant (left top width height)
-   (let ((pos (cons (+ left (random width)) (+ top (random height)))))
-        (setf (gethash pos *plants*) t)))
+  "Creates a new plant within a specified region of the world."
+  (let ((pos (cons (+ left (random width)) (+ top (random height)))))
+    (setf (gethash pos *plants*) t)))
 
 (defun add-plants ()
-   (apply #'random-plant *jungle*)
-   (random-plant 0 0 *width* *height*))
+  "Add two plants every day, one inside the jungle and another in the rest of the map."
+  (apply #'random-plant *jungle*)
+  (random-plant 0 0 *width* *height*))
 
-(defstruct animal x y energy dir genes)
+(defstruct animal
+  "The animal in the game, knowing that this is a Darwinian game of survival, so if an animal can not forage enough food, it will starve and die. So, the energy field tracks how many days of energy an animal has remaining.
+The animal also has to track the direction he is facing. This is important because an animal will walk to a neighboring square in the world map each day. As you can see to animal (M):
 
-(defparameter *animals* 
-    (list (make-animal :x      (ash *width*  -1)
-                       :y      (ash *height* -1)
-                       :energy 1000
-                       :dir    0
-                       :genes  (loop repeat 8
-                                     collecting (1+ (random 10))))))
+|0|1|2|
+|7|M|3|
+|6|5|4|
+
+And finnaly, has the animal genes. Each animal has exactly eight genes, consisting of positive integers. Every day, an animal will decide whether to continue facing the same direction as the day before or to turn and face a new direction. Let’s represent these genes as a table, showing each slot number and how large of a value is stored in it. "
+  x y energy dir genes)
+
+(defparameter *animals*
+  "A list of animals. It's started with a single animal, he will be starting at the center of the world with initial energy of a thousand (since he has not evolved yet, he needs more energy to give him a chance of survive) and, for the genes, we use random numbers."
+  (list (make-animal :x      (ash *width*  -1)
+                     :y      (ash *height* -1)
+                     :energy 1000
+                     :dir    0
+                     :genes  (loop repeat 8
+                                   collecting (1+ (random 10))))))
 
 (defun move (animal)
+  "This function accepts an animal as an argument and moves it, orthogo- nally or diagonally, based on the direction grid we have described."
   (let ((dir (animal-dir animal))
         (x (animal-x animal))
         (y (animal-y animal)))
@@ -44,12 +57,12 @@
 (defun turn (animal)
   (let ((x (random (apply #'+ (animal-genes animal)))))
     (labels ((angle (genes x)
-               (let ((xnu (- x (car genes))))
-                 (if (< xnu 0)
-                     0
-                     (1+ (angle (cdr genes) xnu))))))
-        (setf (animal-dir animal)
-              (mod (+ (animal-dir animal) (angle (animal-genes animal) x)) 8)))))
+		    (let ((xnu (- x (car genes))))
+                      (if (< xnu 0)
+			  0
+			(1+ (angle (cdr genes) xnu))))))
+            (setf (animal-dir animal)
+		  (mod (+ (animal-dir animal) (angle (animal-genes animal) x)) 8)))))
 
 (defun eat (animal)
   (let ((pos (cons (animal-x animal) (animal-y animal))))
@@ -72,7 +85,7 @@
 
 (defun update-world ()
   (setf *animals* (remove-if (lambda (animal)
-                                 (<= (animal-energy animal) 0))
+                               (<= (animal-energy animal) 0))
                              *animals*))
   (mapc (lambda (animal)
           (turn animal)
@@ -95,7 +108,7 @@
                                                *animals*)
                                          #\M)
                                         ((gethash (cons x y) *plants*) #\*)
-                                         (t #\space))))
+                                        (t #\space))))
                   (princ "|"))))
 
 (defun evolution ()
@@ -106,9 +119,9 @@
           (t (let ((x (parse-integer str :junk-allowed t)))
                (if x
                    (loop for i
-                      below x
-                      do (update-world)
-                      if (zerop (mod i 1000))
-                      do (princ #\.))
-                   (update-world))
+			 below x
+			 do (update-world)
+			 if (zerop (mod i 1000))
+			 do (princ #\.))
+                 (update-world))
                (evolution))))))
