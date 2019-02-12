@@ -25,13 +25,14 @@ Return:
   (cadr (assoc location nodes)))
 
 (defparameter *edges*
-  ""
+  "List representing the world edges graph. Each edge has the following structure: ((location-key (location-connection direction path-to-location) ...) ...)"
   '((living-room (garden west door)  
                  (attic upstairs ladder))
     (garden (living-room east door))
     (attic (living-room downstairs ladder))))
 
 (defun describe-path (edge)
+  ""
   `(there is a ,(caddr edge) going ,(cadr edge) from here.))
 
 (defun describe-paths (location edges)
