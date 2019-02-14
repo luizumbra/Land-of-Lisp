@@ -25,20 +25,36 @@ Return:
   (cadr (assoc location nodes)))
 
 (defparameter *edges*
-  "List representing the world edges graph. Each edge has the following structure: ((location-key (location-connection direction path-to-location) ...) ...)"
+  "List representing the world edges graph. Each edge has the following structure: ((location-key (location-connection direction access-to-location-conection) ...) ...)"
   '((living-room (garden west door)  
                  (attic upstairs ladder))
     (garden (living-room east door))
     (attic (living-room downstairs ladder))))
 
 (defun describe-path (edge)
-  ""
+  "Using an edge from *edges* it describe to the user where and how to go to a conect location.
+
+Args:
+  edge (list): an edge of *edges* with the following structure: (location-conection direction access-to-location-conection).
+
+Return:
+  (list): Return a simple description of how to go to a determined location."
   `(there is a ,(caddr edge) going ,(cadr edge) from here.))
 
 (defun describe-paths (location edges)
+  "Describe all the paths of current location.
+
+Args:
+  location (symbol): symbol that represent the player current location.
+  edges (list): list representing the connections between location. Its uses *edges* as default.
+
+Return:
+  (list): Return a simple description of possible paths from the current location using describe-paths."
   (apply #'append (mapcar #'describe-path (cdr (assoc location edges)))))
 
-(defparameter *objects* '(whiskey bucket frog chain))
+(defparameter *objects*
+  "List with the symbols that represent the collectable objects."
+  '(whiskey bucket frog chain))
 
 (defparameter *object-locations* '((whiskey living-room)
                                    (bucket living-room)
