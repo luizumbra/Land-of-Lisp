@@ -56,12 +56,15 @@ Return:
   "List with the symbols that represent the collectable objects."
   '(whiskey bucket frog chain))
 
-(defparameter *object-locations* '((whiskey living-room)
-                                   (bucket living-room)
-                                   (chain garden)
-                                   (frog garden)))
+(defparameter *object-locations*
+  "List of Alists with the respective locations of collectable objects. It has the following structure: ((object node)...)"
+  '((whiskey living-room)
+    (bucket living-room)
+    (chain garden)
+    (frog garden)))
 
 (defun objects-at (loc objs obj-loc)
+  
   (labels ((is-at (obj)
 		  (eq (cadr (assoc obj obj-loc)) loc)))
 	  (remove-if-not #'is-at objs)))
