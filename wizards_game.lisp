@@ -16,12 +16,12 @@
 (defun describe-location (location nodes)
   "A simple function to show the surrounding of a determined location. It will use location as a key to find the description inside node.
 
-Args:
-  location (symbol): symbol that represent one location of the world.
-  nodes (alist): alist representing the world graph. Its use *nodes* as default.
+  Args:
+    location (Symbol): symbol that represent one location of the world.
+    nodes (Alist): alist representing the world graph. Its use *nodes* as default.
 
-Return:
-  (symbol): Return the description of location inside nodes."
+  Return:
+    (Symbol): Return the description of location inside nodes."
   (cadr (assoc location nodes)))
 
 (defparameter *edges*
@@ -34,22 +34,22 @@ Return:
 (defun describe-path (edge)
   "Using an edge from *edges* it describe to the user where and how to go to a conect location.
 
-Args:
-  edge (list): an edge of *edges* with the following structure: (location-conection direction access-to-location-conection).
+  Args:
+    edge (List): an edge of *edges* with the following structure: (location-conection direction access-to-location-conection).
 
-Return:
-  (list): Return a simple description of how to go to a determined location."
+  Return:
+    (List): Return a simple description of how to go to a determined location."
   `(there is a ,(caddr edge) going ,(cadr edge) from here.))
 
 (defun describe-paths (location edges)
   "Describe all the paths of current location.
 
-Args:
-  location (symbol): symbol that represent the player current location.
-  edges (list): list representing the connections between location. Its uses *edges* as default.
+  Args:
+    location (Symbol): symbol that represent the player current location.
+    edges (List): list representing the connections between location. Its uses *edges* as default.
 
-Return:
-  (list): Return a simple description of possible paths from the current location using describe-paths."
+  Return:
+    (List): Return a simple description of possible paths from the current location using describe-paths."
   (apply #'append (mapcar #'describe-path (cdr (assoc location edges)))))
 
 (defparameter *objects*
@@ -64,17 +64,36 @@ Return:
     (frog garden)))
 
 (defun objects-at (loc objs obj-loc)
-  
+  "Return the objects inside a determined location.
+
+  Args:
+    loc (Symbol): a symbol representing a location (node) inside the game.
+    objs (List): list of game objects. Its uses *objects* as default.
+    obj-loc (List): a list of alist represent where a determined object is located. Its use *object-locations*.
+
+  Return:
+    (List): Return a simple list with objs conected to loc."
   (labels ((is-at (obj)
 		  (eq (cadr (assoc obj obj-loc)) loc)))
 	  (remove-if-not #'is-at objs)))
 
 (defun describe-objects (loc objs obj-loc)
+  "Decribe a object in the determined location game.
+
+  Args:
+    loc (Dymbol): a symbol representing a location (node) inside the game.
+    objs (List): list of game objects. Its uses *objects* as default.
+    obj-loc (List): a list of alist represent where a determined object is located. Its use *object-locations*.
+
+  Return:
+    (List): Return a list describing what objects the player can see on the floor (loc/node)."
   (labels ((describe-obj (obj)
 			 `(you see a ,obj on the floor.)))
 	  (apply #'append (mapcar #'describe-obj (objects-at loc objs obj-loc)))))
 
-(defparameter *location* 'living-room)
+(defparameter *location*
+  "Symbol representing the current location of the player. It is initialized with living-room"
+  'living-room)
 
 (defun look ()
   (append (describe-location *location* *nodes*)
