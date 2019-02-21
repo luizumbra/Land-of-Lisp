@@ -96,6 +96,12 @@
   'living-room)
 
 (defun look ()
+  "A simple engine (not functional) to describe the node around the player.
+
+  Args:
+
+  Return:
+    (List<Symbols>): Append in a list the describes functions of the current location of the player, represented by the global variable *location*."
   (append (describe-location *location* *nodes*)
           (describe-paths *location* *edges*)
           (describe-objects *location* *objects* *object-locations*)))
