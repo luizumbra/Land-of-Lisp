@@ -107,6 +107,13 @@
           (describe-objects *location* *objects* *object-locations*)))
 
 (defun walk (direction)
+  "Function to determine what direction the player want to go.
+
+  Args:
+    direction (Symbol): represent a valid destination inside the game world. It must be conect with the current-location, *location*, of the player.
+
+  Return:
+    Case valid direction, this function set the global variable *location* and call the look function. Otherwise, return a error message."
   (labels ((correct-way (edge)
 			(eq (cadr edge) direction)))
 	  (let ((next (find-if #'correct-way (cdr (assoc *location* *edges*)))))
@@ -116,18 +123,37 @@
               '(you cannot go that way.)))))
 
 (defun pickup (object)
+  "Function to permit the player pickup a determined object, if this object is in the current location.
+
+  Args:
+    object (Symbol): a valid object inside *objects* list.
+
+  Return:
+    Case valid object, push the object in *object-location* together with body symbol to represent as a picked object and launch a success message. Otherwise, launch a error message."
   (cond ((member object (objects-at *location* *objects* *object-locations*))
          (push (list object 'body) *object-locations*)
          `(you are now carrying the ,object))
 	(t '(you cannot get that.))))
 
 (defun inventory ()
+  "Show all objected picked by the player.
+
+  Return:
+    (List): A list with all objects in *object-locations* marked with body symbol."
   (cons 'items- (objects-at 'body *objects* *object-locations*)))
 
-(defun have (object) 
+(defun have (object)
+  "Inform the player if he has the selected object.
+
+  Args:
+    object (Symbol): a symbol representing a valid object.
+
+  Return:
+    t, case object is member of inventory() function. nil, otherwise."
   (member object (cdr (inventory))))
 
 (defun game-repl ()
+  ""
   (let ((cmd (game-read)))
     (unless (eq (car cmd) 'quit)
       (game-print (game-eval cmd))
