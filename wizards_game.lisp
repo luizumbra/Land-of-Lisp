@@ -1,4 +1,4 @@
-;;;; -*- Guess-My-Number Game -*-
+;;;; -*- Wizards Game -*-
 ;;; @author: Conrad Barsli, M. D.
 ;;; @book: Land of Lisp: Learn to program in Lisp, one game at a time!
 ;;; @date: 2011
@@ -218,3 +218,74 @@
     (String): Convert lst in a message readble for the player."
   (princ (coerce (tweak-text (coerce (string-trim "() " (prin1-to-string lst)) 'list) t nil) 'string))
   (fresh-line))
+
+;; **************** -*- Summary -*- ****************
+;; *                   Chapter 3                   *
+;; * - Parentheses in Lisp are there to keep the   *
+;; * amount of syntax to a minimum.                *
+;; * - Lists are created from cons cells.          *
+;; * - You can create lists by making cons cells   *
+;; * with the cons command.                        *
+;; * - You can inspect the pieces of a list with   *
+;; * car and cdr.                                  *
+;; *************************************************
+;; *                   Chapter 4                   *
+;; * - The values nil, 'nil, (), and '() are all   *
+;; * basically the same thing in Common Lisp.      *
+;; * - Lisp makes it easy to check for empty lists.*
+;; * This makes it simple to write list-eaters.    *
+;; * - Lisp conditionals, such as the if command,  *
+;; * cause Lisp code to be evaluated only under    *
+;; * the right conditions.                         *
+;; * - If you need a conditional command that does *
+;; * everything, then you want to use cond.        *
+;; * - Comparing stuff in Lisp is complicated, but *
+;; * you can get by if you just use eq for         *
+;; * comparing symbols and equal for comparing     *
+;; * everything else.                              *
+;; *************************************************
+;; *                   Chapter 5                   *
+;; * - A game world can be represented by a        *
+;; * mathematical graph, consisting of nodes for   *
+;; * the places the player can visit and edges for *
+;; * the paths between these places.               *
+;; * - You can store these nodes in an association *
+;; * list (alist) called *nodes*. This alist allows*
+;; * you to look up properties of a node/place by  *
+;; * using its name. In the case of our game, the  *
+;; * property we’re storing is a description of    *
+;; * each node/place.                              *
+;; * - You use the assoc function to look up a key *
+;; (location name in our example) in an alist.     *
+;; * - Quasiquoting is a technique that allows you *
+;; * to insert small bits of computer code into    *
+;; * larger pieces of data.                        *
+;; * - Some Lisp functions accept other functions  *
+;; * as arguments. These are called higher-order   *
+;; * functions. The mapcar function is the most    *
+;; * popular higher-order function in Common Lisp. *
+;; * - To replace a value from an alist, you push  *
+;; * new items onto the list. Only the most recent *
+;; * value will be reported by the assoc function. *
+;; *************************************************
+;; *                   Chapter 6                   *
+;; * - The print and read functions let you        *
+;; * directly communicate with the user through the*
+;; * console. These two functions work in a        *
+;; * computer-friendly way.                        *
+;; * - Other input/output functions are not as     *
+;; * elegant as read and print, but are friendlier *
+;; * for interacting with humans. Examples include *
+;; * princ and read-line.                          *
+;; * - A homoiconic programming language stores its*
+;; * program code and program data in a similar    *
+;; * format. Lisp’s quoting, quasiquoting, eval,   *
+;; * and macro features make it extremely          *
+;; * homoiconic.                                   *
+;; * - It’s easy to write your own custom REPL.    *
+;; * - It’s simple to transform your internal Lisp *
+;; * data into the format most suitable for your   *
+;; * program’s interface. This makes it easy to    *
+;; * separate presentation details from your       *
+;; * program’s internal data structures.           *
+;; *************************************************
