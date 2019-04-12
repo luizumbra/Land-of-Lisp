@@ -4,8 +4,10 @@
 ;;; @date: 2011
 ;;;; -*- Copyright C 2011 by Conrad Barski, M.D. -*-
 
-(defparameter *small* 1)
-(defparameter *big* 100)
+(defparameter *small* 1
+  "A paremeter that represent the possible smallest value.")
+(defparameter *big* 100
+  "A parameter that represent the possible larger value.")
 
 (defun guess-my-number ()
   "It will half between the bigger and smalest possible number to guess the user number."

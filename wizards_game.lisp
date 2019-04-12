@@ -5,13 +5,13 @@
 ;;;; -*- Copyright C 2011 by Conrad Barski, M.D. -*-
 
 (defparameter *nodes*
-  "Alist representing the nodes of the world with a simple description. Each node has the following structure: (location description)."
   '((living-room (you are in the living-room.
 		      a wizard is snoring loudly on the couch.))
     (garden (you are in a beautiful garden.
 		 there is a well in front of you.))
     (attic (you are in the attic.
-		there is a giant welding torch in the corner.))))
+		there is a giant welding torch in the corner.)))
+    "Alist representing the nodes of the world with a simple description. Each node has the following structure: (location description).")
 
 (defun describe-location (location nodes)
   "A simple function to show the surrounding of a determined location. It will use location as a key to find the description inside node.
@@ -25,11 +25,11 @@
   (cadr (assoc location nodes)))
 
 (defparameter *edges*
-  "List representing the world edges graph. Each edge has the following structure: ((location-key (location-connection direction access-to-location-conection) ...) ...)"
   '((living-room (garden west door)  
                  (attic upstairs ladder))
     (garden (living-room east door))
-    (attic (living-room downstairs ladder))))
+    (attic (living-room downstairs ladder)))
+  "List representing the world edges graph. Each edge has the following structure: ((location-key (location-connection direction access-to-location-conection) ...) ...)")
 
 (defun describe-path (edge)
   "Using an edge from *edges* it describe to the user where and how to go to a conect location.
@@ -53,15 +53,15 @@
   (apply #'append (mapcar #'describe-path (cdr (assoc location edges)))))
 
 (defparameter *objects*
-  "List with the symbols that represent the collectable objects."
-  '(whiskey bucket frog chain))
+  '(whiskey bucket frog chain)
+    "List with the symbols that represent the collectable objects.")
 
 (defparameter *object-locations*
-  "List of Alists with the respective locations of collectable objects. It has the following structure: ((object node)...)"
   '((whiskey living-room)
     (bucket living-room)
     (chain garden)
-    (frog garden)))
+    (frog garden))
+    "List of Alists with the respective locations of collectable objects. It has the following structure: ((object node)...)")
 
 (defun objects-at (loc objs obj-loc)
   "Return the objects inside a determined location.
@@ -153,26 +153,51 @@
   (member object (cdr (inventory))))
 
 (defun game-repl ()
-  ""
+  "A simple game repel to the player.
+
+  Return:
+    Symbol: a quit symbol case the player exit the game. Otherwise call some command given by the player."
   (let ((cmd (game-read)))
     (unless (eq (car cmd) 'quit)
       (game-print (game-eval cmd))
       (game-repl))))
 
 (defun game-read ()
+  "Read a command given by the player.
+
+  Return:
+    (Function): a function that represents a player command."
   (let ((cmd (read-from-string (concatenate 'string "(" (read-line) ")"))))
     (flet ((quote-it (x)
                      (list 'quote x)))
           (cons (car cmd) (mapcar #'quote-it (cdr cmd))))))
 
-(defparameter *allowed-commands* '(look walk pickup inventory))
+(defparameter *allowed-commands* '(look walk pickup inventory)
+  "A list representing the allowed commands wich the player can give.")
 
 (defun game-eval (sexp)
+  "Evaluate a command given by the player.
+
+  Args:
+    (Function): a command writen by the player.
+
+  Return:
+    (Eval Function): case the sexp is a valid command.
+    (List): a list explain command invalid, case sexp is not a valid command."
   (if (member (car sexp) *allowed-commands*)
       (eval sexp)
     '(i do not know that command.)))
 
 (defun tweak-text (lst caps lit)
+  "Looks at each character in the list and modifies it as needed.
+
+  Args:
+    lst (List): A message wich repel will pass to the player.
+    caps (Boolean): Define if this character must be captalized.
+    lit (Boolean): Define if this character quotation mark.
+
+  Return:
+    (String): Fuse lst symbols as a string message to the player."
   (when lst
     (let ((item (car lst))
           (rest (cdr lst)))
@@ -184,5 +209,12 @@
             (t (cons (char-downcase item) (tweak-text rest nil nil)))))))
 
 (defun game-print (lst)
+  "Print the repel message to the player.
+
+  Args:
+    lst (List): a message repel in form of list.
+
+  Return:
+    (String): Convert lst in a message readble for the player."
   (princ (coerce (tweak-text (coerce (string-trim "() " (prin1-to-string lst)) 'list) t nil) 'string))
   (fresh-line))
