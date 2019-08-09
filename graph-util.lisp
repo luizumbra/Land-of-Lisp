@@ -2,6 +2,7 @@
 ;;; @author: Conrad Barsli, M. D.
 ;;; @book: Land of Lisp: Learn to program in Lisp, one game at a time!
 ;;; @date: 2011
+;;; @prerequisite: Graphvitz
 ;;;; -*- Copyright C 2011 by Conrad Barski, M.D. -*-
 
 (defparameter *wizard-nodes* '((living-room (you are in the living-room.
@@ -10,16 +11,16 @@
                                         there is a well in front of you.))
                                (attic (you are in the attic.
                                        there is a giant welding torch in the corner.)))
-  "Alist contain a key (game world) with a little description of the local.")
+  "A datastruct for the nodes of the game world with a little description. It is a list as dictionary with the nodes of the world as Key and with alist (holding a description of the node) as element.")
 
 (defparameter *wizard-edges* '((living-room (garden west door)  
                                 (attic upstairs ladder))
                                (garden (living-room east door))
                                (attic (living-room downstairs ladder)))
-  "Alist conatin a key (local of the world) connecting with a list wich contain three elements: (1)another world local; (2) the path; and (3) the enter of this local.")
+  "A datastruct of the edges between the nodes of the world with the path for that connections. It is a list as dictionary with the node of the world where the key is the node and the element it is a list with three elements: (1) the connected node; (2) a path connector; and (3) entrance for the node connector.")
 
 (defun dot-name (exp)
-  "Function to normalize the node identifier. To make sure the node identifier we’re using is legal, we’ll change any forbidden characters to underscores.
+  "Function to normalize the node identifier. In other words, to make sure the used node identifier is legal, any forbidden characters is changed for a underscore.
 
   Args:
     exp (string): a expression to represent a identifier of a DOT file.
@@ -118,7 +119,7 @@
            edges))
 
 (defun ugraph->dot (nodes edges)
-   "Generate all the DOT data.
+  "Generate all the DOT data.
 
   Args:
     nodes (alist): an alist with a node key and yours rescptivily description.
