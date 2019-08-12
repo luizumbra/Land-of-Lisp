@@ -1,30 +1,68 @@
+;;;; -*- Guess-My-Number Game -*-
+;;; @author: Conrad Barsli, M. D.
+;;; @book: Land of Lisp: Learn to program in Lisp, one game at a time!
+;;; @date: 2011
+;;;; -*- Copyright C 2011 by Conrad Barski, M.D. -*-
+
 (load "graph-util")
 
-(defparameter *congestion-city-nodes* nil)
-(defparameter *congestion-city-edges* nil)
-(defparameter *visited-nodes* nil)
-(defparameter *node-num* 30)
-(defparameter *edge-num* 45)
-(defparameter *worm-num* 3)
-(defparameter *cop-odds* 15)
+(defparameter *congestion-city-nodes* nil
+  "Variable to store the nodes of the game world.")
+(defparameter *congestion-city-edges* nil
+  "Variable to store the edges of the game world.")
+(defparameter *visited-nodes* nil
+  "Variable to store and inform the player visited places.")
+(defparameter *node-num* 30
+  "Total number of game world nodes.")
+(defparameter *edge-num* 45
+  "Total of connection (edge) between each game world node.")
+(defparameter *worm-num* 3
+  "Total number of Gruessome Glowworm Gang in the city.")
+(defparameter *cop-odds* 15
+  "Total number of Cops in the city.")
 
 (defun random-node ()
+  "Generate a random number for a especific node.
+
+  Return:
+    (integer): a random number between 1 and *node-num*."
   (1+ (random *node-num*)))
 
 (defun edge-pair (a b)
+  "Connect to nodes to form a edge.
+
+  Args:
+    a (integer): a integer representing a node of the city.
+    b (integer): a integer representing a node of the city.
+
+  Return:
+    (list): a list that contain two alist representing the connection between a to b and b to a."
   (unless (eql a b)
     (list (cons a b) (cons b a))))
 
 (defun make-edge-list ()
+  "Generate the edge list.
+
+  Return:
+    (list): a list with *edge-num* elements. Each elements it is a call of the function edge-pair with random parameters."
   (apply #'append (loop repeat *edge-num*
-                        collect (edge-pair (random-node) (random-node)))))
+		     collect (edge-pair (random-node) (random-node)))))
 
 (defun direct-edges (node edge-list)
+  "Make some nodes be a directed node.
+
+  Args:
+    node (integer): a node world that must be a direct node.
+    edge-list (list): a list that contain the edges of the world.
+
+  Return:
+    (list): the same edge-list with the undirect of node removed."
   (remove-if-not (lambda (x)
                    (eql (car x) node))
                  edge-list))
 
 (defun get-connected (node edge-list)
+  ""
   (let ((visited nil))
     (labels ((traverse (node)
                (unless (member node visited)
@@ -75,13 +113,13 @@
                                                   edges-with-cops
                                                   :test #'equal)
                                     (list node2 'cops)
-                                  edge)))
+				    edge)))
                             node1-edges))))
           edge-alist))
 
 (defun make-city-edges ()
   (let* ((nodes (loop for i from 1 to *node-num*
-                      collect i))
+		   collect i))
          (edge-list (connect-all-islands nodes (make-edge-list)))
          (cops (remove-if-not (lambda (x)
                                 (zerop (random *cop-odds*)))
@@ -103,19 +141,19 @@
 (defun make-city-nodes (edge-alist)
   (let ((wumpus (random-node))
         (glow-worms (loop for i below *worm-num*
-                          collect (random-node))))
+		       collect (random-node))))
     (loop for n from 1 to *node-num*
-          collect (append (list n)
-                          (cond ((eql n wumpus) '(wumpus))
-                                ((within-two n wumpus edge-alist) '(blood!)))
-                          (cond ((member n glow-worms)
-                                 '(glow-worm))
-                                ((some (lambda (worm)
-                                         (within-one n worm edge-alist))
-                                       glow-worms)
-                                 '(lights!)))
-                          (when (some #'cdr (cdr (assoc n edge-alist)))
-                            '(sirens!))))))
+       collect (append (list n)
+		       (cond ((eql n wumpus) '(wumpus))
+			     ((within-two n wumpus edge-alist) '(blood!)))
+		       (cond ((member n glow-worms)
+			      '(glow-worm))
+			     ((some (lambda (worm)
+				      (within-one n worm edge-alist))
+				    glow-worms)
+			      '(lights!)))
+		       (when (some #'cdr (cdr (assoc n edge-alist)))
+			 '(sirens!))))))
 
 (defun new-game ()
   (setf *congestion-city-edges* (make-city-edges))
@@ -142,18 +180,18 @@
                       n))
                 (list node '?)))
           (remove-duplicates 
-              (append *visited-nodes*
-                      (mapcan (lambda (node)
-                                (neighbors node *congestion-city-edges*))
-                              *visited-nodes*)))))
+	   (append *visited-nodes*
+		   (mapcan (lambda (node)
+			     (neighbors node *congestion-city-edges*))
+			   *visited-nodes*)))))
 
 (defun known-city-edges ()
   (mapcar (lambda (node)
             (cons node (mapcar (lambda (x)
                                  (if (member (car x) *visited-nodes*)
                                      x
-                                   (list (car x))))
-                                   (cdr (assoc node *congestion-city-edges*)))))
+				     (list (car x))))
+			       (cdr (assoc node *congestion-city-edges*)))))
           *visited-nodes*))
 
 (defun draw-known-city ()
@@ -178,7 +216,7 @@
                      (cdr (assoc *player-pos* *congestion-city-edges*)))))
     (if edge
         (handle-new-place edge pos charging)
-      (princ "That location does not exist!"))))
+	(princ "That location does not exist!"))))
 
 (defun handle-new-place (edge pos charging)
   (let* ((node (assoc pos *congestion-city-nodes*))
