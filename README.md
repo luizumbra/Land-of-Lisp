@@ -8,6 +8,8 @@ So, this repository have the objective to develop some of the games in this book
 Game List
 ---------
 
+### Guess my Number ###
+
 ### Wizard World ###
 
 ### The Grand Theft Wumpus ###
