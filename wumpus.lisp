@@ -12,28 +12,29 @@
   "Variable to store the edges of the game world.")
 (defparameter *visited-nodes* nil
   "Variable to store and inform the player visited places.")
+
 (defparameter *node-num* 30
-  "Total number of game world nodes.")
+  "Maximum number of Congestion City location.")
 (defparameter *edge-num* 45
-  "Total of connection (edge) between each game world node.")
+  "Maximum number of roads of Congestion City.")
 (defparameter *worm-num* 3
   "Total number of Gruessome Glowworm Gang in the city.")
 (defparameter *cop-odds* 15
   "Total number of Cops in the city.")
 
 (defun random-node ()
-  "Generate a random number for a especific node.
+  "Generate a random number for a especific location.
 
   Return:
     (integer): a random number between 1 and *node-num*."
   (1+ (random *node-num*)))
 
 (defun edge-pair (a b)
-  "Connect to nodes to form a edge.
+  "Create two directed edges between the selected nodes.
 
   Args:
-    a (integer): a integer representing a node of the city.
-    b (integer): a integer representing a node of the city.
+    a (integer): a integer representing location.
+    b (integer): a integer representing location.
 
   Return:
     (list): a list that contain two alist representing the connection between a to b and b to a."
@@ -41,7 +42,7 @@
     (list (cons a b) (cons b a))))
 
 (defun make-edge-list ()
-  "Generate the edge list.
+  "Generates the actual list of random roads.
 
   Return:
     (list): a list with *edge-num* elements. Each elements it is a call of the function edge-pair with random parameters."
@@ -49,20 +50,27 @@
 		     collect (edge-pair (random-node) (random-node)))))
 
 (defun direct-edges (node edge-list)
-  "Make some nodes be a directed node.
+  "Finds all the edges in an edge list that start from a given node.
 
   Args:
     node (integer): a node world that must be a direct node.
     edge-list (list): a list that contain the edges of the world.
 
   Return:
-    (list): the same edge-list with the undirect of node removed."
+    (list): collect all edges that do not have node on car position."
   (remove-if-not (lambda (x)
                    (eql (car x) node))
                  edge-list))
 
 (defun get-connected (node edge-list)
-  ""
+  "Finds the nodes already connected.
+
+  Args:
+    node (integer): a source node.
+    edge-list (list): a list of edges.
+
+  Return:
+    (list): all node connect to the source node inside edge-list."
   (let ((visited nil))
     (labels ((traverse (node)
                (unless (member node visited)
@@ -74,12 +82,27 @@
     visited))
 
 (defun connect-with-bridges (islands)
+  "Bridging the islands together.
+
+  Args:
+    islands (list): list of nodes.
+
+  Return:
+    (list): Conncet all the bridges with the edge-pair function."
   (print islands)
   (when (cdr islands)
     (append (edge-pair (caar islands) (caadr islands))
             (connect-with-bridges (cdr islands)))))
 
 (defun find-islands (nodes edge-list)
+  "Generate a list of islands nodes.
+
+  Args:
+    nodes (list): nodes list.
+    edge-list: list of edges.
+
+  Return:
+    (list): subtracts the connected nodes with all nodes."
   (let ((islands nil))
     (labels ((find-island (nodes)
                (let* ((connected (get-connected (car nodes) edge-list))
@@ -91,9 +114,18 @@
     islands))
 
 (defun connect-all-islands (nodes edge-list)
+  "Append the conections of islands nodes with edge-list.
+
+  Args:
+    nodes (list): node list.
+    edge-list (list): list of edges.
+
+  Return:
+    (list): connect the islands together them append to edge-list."
   (append (connect-with-bridges (find-islands nodes edge-list)) edge-list))
 
 (defun edges-to-alist (edge-list)
+  ""
   (mapcar (lambda (node1)
             (cons node1
                   (mapcar (lambda (edge)
